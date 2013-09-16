@@ -3,3 +3,4 @@ logs/*
 *.*~
 *.DS_STORE
 .gitignore
+*.*.swp

@@ -2,10 +2,9 @@
 
 /* Controllers */
 
-angular.module('myApp.controllers', []).
-  controller('MyCtrl1', [function() {
+angular.module('cmcShop.controllers', [])
+  .controller('ProductCarouselCtrl', ['$scope', 'products', function($scope, products) {
+     var slides = $scope.slides = products();
 
-  }])
-  .controller('MyCtrl2', [function() {
 
   }]);
