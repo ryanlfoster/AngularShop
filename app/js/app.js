@@ -34,6 +34,7 @@ angular.module('cmcShop', ['ui.bootstrap', 'cmcShop.controllers'])
    })
    .factory('Basket', function($rootScope) {
       var items = [];
+      var deliveryMethod;
 
       var Basket = {
          ITEM_ADDED: 'item_added',
@@ -43,6 +44,12 @@ angular.module('cmcShop', ['ui.bootstrap', 'cmcShop.controllers'])
          },
          getItems: function() {
             return items;
+         },
+         setDeliveryMethod: function(method) {
+            deliveryMethod = method;
+         },
+         getDeliveryMethod: function() {
+            return deliveryMethod;
          }
       };
 
@@ -52,5 +59,6 @@ angular.module('cmcShop', ['ui.bootstrap', 'cmcShop.controllers'])
       $routeProvider
          .when('/basket', { templateUrl: 'partials/basket.html', controller: 'BasketCtrl' })
          .when('/deliveryMethod', { templateUrl: 'partials/deliveryMethod.html', controller: 'DeliveryMethodCtrl' })
+         .when('/complete', { templateUrl: 'partials/completion.html', controller: 'CompletionCtrl' })
          .otherwise({ redirectTo: '/basket' });
    }]);

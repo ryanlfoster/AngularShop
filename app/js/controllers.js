@@ -17,6 +17,16 @@ angular.module('cmcShop.controllers', [])
         $scope.items = Basket.getItems();
      });
   }])
-  .controller('DeliveryMethodCtrl', ['$scope', 'DeliveryMethods', function($scope, DeliveryMethods) {
+  .controller('DeliveryMethodCtrl', ['$scope', 'DeliveryMethods', 'Basket', function($scope, DeliveryMethods, Basket) {
      $scope.methods = DeliveryMethods;
+     $scope.$watch('selectedMethod', function(method) {
+        Basket.setDeliveryMethod(method);
+     });
+  }])
+  .controller('CompletionCtrl', ['$scope', 'Basket', function($scope, Basket) {
+     $scope.totalAmount = 0;
+     for (var items = Basket.getItems(), i = 0; i < items.length; i++) {
+        $scope.totalAmount += items[i].price;
+     }
+     $scope.totalAmount += Basket.getDeliveryMethod().price;
   }]);

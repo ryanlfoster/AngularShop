@@ -1,4 +1,5 @@
 <p>Your delivery method:</p>
 <label ng-repeat="method in methods">
-   <input type="radio" name="deliveryMethod" ng-value="type"/>{{method.type}} for £{{method.price}}
+   <input type="radio" name="deliveryMethod" ng-value="method" ng-model="$parent.selectedMethod">{{method.type}} for £{{method.price}}
 </label>
+<a href="#/complete" title="Complete">Complete</a>
