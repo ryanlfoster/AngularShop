@@ -11,15 +11,18 @@
       <div class="span6">
          <div ng-controller="ProductCarouselCtrl">
             <carousel>
-               <slide ng-repeat="slide in slides">
-                  <img src="{{slide.image}}" style="margin:auto;" />
+               <slide ng-repeat="product in products">
+                  <img src="{{product.image}}" style="margin:auto;" />
                   <div class="carousel-caption">
-                     <h4>{{slides.type + ' ' + ($index + 1)}}</h4>
-                     <a href="" title="Buy this {{slides.type}}" ng-click="buy(slide)">Buy "{{slide.text}}"</a>
+                     <h4>{{products.type + ' ' + ($index + 1)}}</h4>
+                     <a href="" title="Buy this {{products.type}}" ng-click="buy(product)">Buy "{{product.text}}" for £{{product.price}}</a>
                   </div>
                </slide>
             </carousel>
          </div>
+      </div>
+      <div class="span3">
+         <div ng-view></div>
       </div>
    </div>
   <script src="lib/angular/angular.js"></script>

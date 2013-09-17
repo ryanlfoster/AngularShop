@@ -1,0 +1,4 @@
+<p>Your delivery method:</p>
+<label ng-repeat="method in methods">
+   <input type="radio" name="deliveryMethod" ng-value="type"/>{{method.type}} for £{{method.price}}
+</label>
