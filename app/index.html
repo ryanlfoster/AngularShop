@@ -21,7 +21,36 @@
          </div>
       </div>
       <div class="span3">
-         <div ng-view></div>
+         <accordion close-others="true">
+            <accordion-group heading="Basket" is-open="true">
+               <div ng-controller="BasketCtrl">
+                  <p>Your shopping basket:</p>
+                  <ul>
+                     <li ng-repeat="item in items">
+                        {{item.text}}
+                        <i class="icon-minus" ng-click="minus(item)"></i>{{item.quantity}}<i class="icon-plus" ng-click="plus(item)"></i><i class="icon-remove" ng-click="remove(item)"></i>
+                     </li>
+                  </ul>
+               </div>
+            </accordion-group>
+            <accordion-group heading="Delivery Method">
+               <div ng-controller="DeliveryMethodCtrl">
+                  <p>Your delivery method:</p>
+                  <label ng-repeat="method in methods">
+                     <input type="radio" name="deliveryMethod" ng-value="method" ng-model="$parent.selectedMethod">{{method.type}} for £{{method.price}}
+                  </label>
+               </div>
+            </accordion-group>
+         </accordion>
+      </div>
+      <div class="span3 well" ng-controller="CompletionCtrl">
+         <p>Total: £{{totalAmount}}</p>
+         <p>
+            <a href="" title="Complete order" ng-click="complete()">Complete your order</a>
+         </p>
+         <p>
+            <a href="" title="Cancel order" ng-click="cancel()">Cancel your order</a>
+         </p>
       </div>
    </div>
   <script src="lib/angular/angular.js"></script>

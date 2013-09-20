@@ -30,26 +30,66 @@ angular.module('cmcShop.services', [])
          price: 25
       }];
    })
-   .factory('Basket', function($rootScope) {
-      var items = [];
-      var deliveryMethod;
+   .factory('Order', ['$rootScope', 'DeliveryMethods', function($rootScope, DeliveryMethods) {
+      function Item(product) {
+         this.id = product.id;
+         this.price = product.price;
+         this.text = product.text;
+         this.quantity = 1;
+      };
 
-      var Basket = {
+      Item.prototype.incrementQuantity = function() {
+         this.quantity++;
+         $rootScope.$broadcast(order.TOTAL_CHANGED);
+      };
+
+      Item.prototype.decrementQuantity = function() {
+         this.quantity > 1 && this.quantity--;
+         $rootScope.$broadcast(order.TOTAL_CHANGED);
+      };
+
+      var items = {};
+      var deliveryMethod = DeliveryMethods[0]
+
+      var order = {
          ITEM_ADDED: 'item_added',
-         add: function(item) {
-            items.push(item);
-            $rootScope.$broadcast(Basket.ITEM_ADDED);
+         TOTAL_CHANGED: 'total_changed',
+         CANCELLED: 'cancelled',
+         addItem: function(product) {
+            items[product.id] ? items[product.id].quantity++ : items[product.id] = new Item(product);
+            $rootScope.$broadcast(order.ITEM_ADDED);
+            $rootScope.$broadcast(order.TOTAL_CHANGED);
+         },
+         removeItem: function(item) {
+            delete items[item.id];
+            $rootScope.$broadcast(order.TOTAL_CHANGED);
          },
          getItems: function() {
             return items;
          },
-         setDeliveryMethod: function(method) {
-            deliveryMethod = method;
+         getTotal: function() {
+            var total = 0;
+            for (var key in items) {
+               total += (items[key].price * items[key].quantity);
+            }
+            return total += deliveryMethod.price;
          },
          getDeliveryMethod: function() {
             return deliveryMethod;
+         },
+         setDeliveryMethod: function(method) {
+            deliveryMethod = method;
+            $rootScope.$broadcast(order.TOTAL_CHANGED);
+         },
+         cancel: function() {
+            items = {};
+            deliveryMethod = DeliveryMethods[0];
+            $rootScope.$broadcast(order.CANCELLED);
+         },
+         reset: function() {
+            order.cancel();
          }
       };
 
-      return Basket;
-   });
+      return order;
+   }]);
