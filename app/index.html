@@ -37,7 +37,7 @@
                <div ng-controller="DeliveryMethodCtrl">
                   <p>Your delivery method:</p>
                   <label ng-repeat="method in methods">
-                     <input type="radio" name="deliveryMethod" ng-value="method" ng-model="$parent.selectedMethod">{{method.type}} for £{{method.price}}
+                     <input type="radio" name="deliveryMethod" ng-value="method" ng-model="$parent.deliveryMethod">{{method.type}} for £{{method.price}}
                   </label>
                </div>
             </accordion-group>

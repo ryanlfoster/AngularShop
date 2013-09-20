@@ -40,29 +40,26 @@ angular.module('cmcShop.services', [])
 
       Item.prototype.incrementQuantity = function() {
          this.quantity++;
-         $rootScope.$broadcast(order.TOTAL_CHANGED);
       };
 
       Item.prototype.decrementQuantity = function() {
          this.quantity > 1 && this.quantity--;
-         $rootScope.$broadcast(order.TOTAL_CHANGED);
       };
 
-      var items = {};
-      var deliveryMethod = DeliveryMethods[0]
+      function init() {
+         items = {};
+         deliveryMethod = DeliveryMethods[0];
+      };
+
+      var items,
+          deliveryMethod;
 
       var order = {
-         ITEM_ADDED: 'item_added',
-         TOTAL_CHANGED: 'total_changed',
-         CANCELLED: 'cancelled',
          addItem: function(product) {
             items[product.id] ? items[product.id].quantity++ : items[product.id] = new Item(product);
-            $rootScope.$broadcast(order.ITEM_ADDED);
-            $rootScope.$broadcast(order.TOTAL_CHANGED);
          },
          removeItem: function(item) {
             delete items[item.id];
-            $rootScope.$broadcast(order.TOTAL_CHANGED);
          },
          getItems: function() {
             return items;
@@ -79,17 +76,12 @@ angular.module('cmcShop.services', [])
          },
          setDeliveryMethod: function(method) {
             deliveryMethod = method;
-            $rootScope.$broadcast(order.TOTAL_CHANGED);
          },
-         cancel: function() {
-            items = {};
-            deliveryMethod = DeliveryMethods[0];
-            $rootScope.$broadcast(order.CANCELLED);
-         },
-         reset: function() {
-            order.cancel();
-         }
+         cancel: init,
+         reset: init
       };
 
+      init();
+      
       return order;
    }]);

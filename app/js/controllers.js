@@ -11,40 +11,38 @@ angular.module('cmcShop.controllers', [])
      };
   }])
   .controller('BasketCtrl', ['$scope', 'Order', function($scope, Order) {
-     $scope.items = [];
-
-     var eventHandler = function() {
-        $scope.items = Order.getItems();
-     };
-     $scope.$on(Order.ITEM_ADDED, eventHandler);
-     $scope.$on(Order.CANCELLED, eventHandler);
+     $scope.$watch(Order.getItems, function(items) {
+        $scope.items = items;
+     });
 
      $scope.plus = function(item) {
         item.incrementQuantity();
      };
+
      $scope.minus = function(item) {
         item.decrementQuantity();
      };
+
      $scope.remove = function(item) {
         Order.removeItem(item);
      };
   }])
   .controller('DeliveryMethodCtrl', ['$scope', 'DeliveryMethods', 'Order', function($scope, DeliveryMethods, Order) {
      $scope.methods = DeliveryMethods;
-     $scope.selectedMethod = Order.getDeliveryMethod();
-     
-     $scope.$watch('selectedMethod', function(method) {
-        Order.setDeliveryMethod(method);
+
+     $scope.$watch('deliveryMethod', function(newMethod, oldMethod) {
+        if (newMethod === oldMethod) return;
+        Order.setDeliveryMethod(newMethod);
+     });
+
+     $scope.$watch(Order.getDeliveryMethod, function(deliveryMethod) {
+        $scope.deliveryMethod = deliveryMethod;
      });
   }])
   .controller('CompletionCtrl', ['$scope', 'Order', function($scope, Order) {
-     $scope.totalAmount = 0;
-
-     var eventHandler = function() {
-        $scope.totalAmount = Order.getTotal();
-     };
-     $scope.$on(Order.TOTAL_CHANGED, eventHandler);
-     $scope.$on(Order.CANCELLED, eventHandler);
+     $scope.$watch(Order.getTotal, function(total) {
+        $scope.totalAmount = total;
+     });
 
      $scope.complete = function() {
         alert('Thank you for your order');
