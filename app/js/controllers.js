@@ -2,7 +2,7 @@
 
 /* Controllers */
 
-angular.module('cmcShop.controllers', [])
+angular.module('angularShop.controllers', [])
   .controller('ProductCarouselCtrl', ['$scope', 'Products', 'Order',  function($scope, Products, Order) {
      $scope.products = Products;
 

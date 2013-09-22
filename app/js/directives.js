@@ -1,4 +1,4 @@
 'use strict';
 
 /* Directives */
-angular.module('cmcShop.directives', []);
+angular.module('angularShop.directives', []);

@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('cmcShop.services', [])
+angular.module('angularShop.services', [])
    .factory('Products', function() {
       var products = [{
             id: 1,
